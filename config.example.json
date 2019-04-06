@@ -1,0 +1,5 @@
+{
+  "name": "streamname",
+  "port": 9030,
+  "chat_port": 9031
+}
