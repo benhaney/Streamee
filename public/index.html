@@ -1,24 +1,36 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
   <head>
+    <title>Stream</title>
+    <link rel="manifest" href="/manifest.webmanifest">
     <link rel="stylesheet" href="css/style.css">
     <script defer src="js/hls.js"></script>
+    <script defer src="js/cookie.js"></script>
     <script defer src="js/index.js"></script>
     <script defer src="js/chat.js"></script>
+    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body class="right-uncollapsed">
-    <div id="container">
+    <main id="container">
       <section id="main-content">
-        <video id="video" controls muted autoplay></video>
-        <p id="external-link"><a href="stream/stream.m3u8">Stream URL</a> for standalone players</p>
-        <p id="vods-link">Recordings of <a href="vods">previous streams</a></p>
+        <video id="video" controls muted loop autoplay></video>
+        <ul class="horizontal-list">
+          <li><a href="stream/stream.m3u8" title="Raw stream URL for standalone players">Raw stream</a></li>
+          <li><a href="vods" title="Recordings of previous streams">Previous streams</a></li>
+          <li><a href="#" title="Be notified when the stream goes live">Subscribe</a></p></li>
+        </ul>
       </section>
-      <section id="sidebar-right">
-        <div id="chats"></div>
-        <div class="dual-input"><input id="name-input" size="8" maxlength="8" placeholder="Name"><input id="chat-input"></div>
+      <section id="sidebar-right" class="flex-column">
+        <div id="chats" class="flex"></div>
+        <div class="dual-input flex">
+          <input id="name-input" size="8" maxlength="8" placeholder="Name" aria-label="Chat name">
+          <input id="chat-input" aria-label="Chat input">
+        </div>
       </section>
-    </div>
-    <div id="collapse-hoverer">
-      <div id="collapse-button" title="Collapse chat pane"></div>
-    </div>
+      <div id="collapse-hoverer">
+        <div id="collapse-button" title="Collapse chat pane"></div>
+      </div>
+    </main>
   </body>
 </html>

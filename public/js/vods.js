@@ -29,6 +29,7 @@ fetch('/vods/vods.json').then(res => res.json()).then(vods => {
     thumb_a.href = `/vods/${filename}`
     let thumb = document.createElement('img')
     thumb.src = `/vods/${meta.thumb}`
+    thumb.alt = meta.title || 'Unnamed stream'
     thumb_a.append(thumb)
     vod.append(thumb_a)
     if (meta.title) {

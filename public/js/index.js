@@ -6,10 +6,10 @@ if (Hls.isSupported()) {
   })
   hls.loadSource('stream/stream.m3u8')
   hls.attachMedia(video)
-  hls.on(Hls.Events.MANIFEST_PARSED, video.play)
+  hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(console.error))
 } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
   video.src = 'stream/stream.m3u8'
-  video.addEventListener('loadedmetadata', video.play)
+  video.addEventListener('loadedmetadata', () => video.play().catch(console.error))
 }
 
 let class_swap = (el, c1, c2) => {
@@ -26,13 +26,8 @@ collapser.onclick = ev => {
   write_cookie(cookie)
 }
 
-let write_cookie = obj => {
-  let ex = new Date(Date.now() + 1000*60*60*24*365).toUTCString()
-  Object.entries(obj).map(a => a.join('=')).forEach(x => document.cookie = `${x}; expires=${ex}`)
-}
-
-let read_cookie = () => document.cookie ? document.cookie.split(/; ?/g).map(x => x.split('=')).reduce((a,b)=>Object.assign(a,{[b[0]]:b[1]}), {}) : ({})
-
-let cookie = read_cookie()
-
 document.body.className = cookie.collapsed == "true" ? 'right-collapsed' : 'right-uncollapsed'
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('/sw.js')
+}
