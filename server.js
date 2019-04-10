@@ -2,8 +2,8 @@ const fs = require('fs')
 const path = require('path')
 const express = require('express')
 const app = express()
-const streamer = require('./lib/ffmpeg_stream')
-const chat = require('./lib/ws_chat')
+const Stream = require('./lib/ffmpeg_stream')
+const Chat = require('./lib/ws_chat')
 const config = require('./lib/config.js')
 
 fs.mkdirSync(path.join(__dirname, 'data/stream'), { recursive: true })
@@ -23,5 +23,5 @@ app.use('/', express.static('public'))
 
 app.listen(config.port)
 
-streamer(config)
-chat(config)
+let stream = new Stream(config)
+let chat = new Chat(config)
