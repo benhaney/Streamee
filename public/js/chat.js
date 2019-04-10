@@ -51,6 +51,8 @@ let ws_connect = () => {
       })
     }
 
+    if (m.type == 'stream_start') init_video()
+
     if (m.type == 'error') {
       chats.prepend(create_error_line(m.message))
     }

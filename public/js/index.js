@@ -1,16 +1,20 @@
 let video = document.getElementById('video')
-if (Hls.isSupported()) {
-  let hls = new Hls({
-    liveSyncDurationCount: 2,
-    liveMaxLatencyDurationCount: 7
-  })
-  hls.loadSource('stream/stream.m3u8')
-  hls.attachMedia(video)
-  hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(console.error))
-} else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-  video.src = 'stream/stream.m3u8'
-  video.addEventListener('loadedmetadata', () => video.play().catch(console.error))
+
+let init_video = () => {
+  if (Hls.isSupported()) {
+    hls = new Hls({
+      liveSyncDurationCount: 2,
+      liveMaxLatencyDurationCount: 7
+    })
+    hls.loadSource('stream/stream.m3u8')
+    hls.attachMedia(video)
+    hls.on(Hls.Events.MANIFEST_PARSED, () => video.play().catch(console.error))
+  } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+    video.src = 'stream/stream.m3u8'
+    video.addEventListener('loadedmetadata', () => video.play().catch(console.error))
+  }
 }
+init_video()
 
 let class_swap = (el, c1, c2) => {
   let cs = [...el.classList]
