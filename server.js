@@ -25,3 +25,5 @@ app.listen(config.port)
 
 let stream = new Stream(config)
 let chat = new Chat(config)
+
+stream.on('changed', playing => chat.signal_stream_change(playing))

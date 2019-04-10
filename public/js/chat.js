@@ -51,7 +51,17 @@ let ws_connect = () => {
       })
     }
 
-    if (m.type == 'stream_start') init_video()
+    if (m.type == 'stream_change') {
+      console.log(m.playing)
+      if (m.playing) init_video()
+      if (!m.playing) {
+        if (video.paused) {
+          init_video()
+        } else {
+          video.addEventListener('pause', init_video, {once: true})
+        }
+      }
+    }
 
     if (m.type == 'error') {
       chats.prepend(create_error_line(m.message))
