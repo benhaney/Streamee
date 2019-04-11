@@ -43,6 +43,10 @@ a.subscribe {
 #sidebar-right {
   flex: 1 1;
   flex-basis: 30%;
+  display: flex;
+  position: sticky;
+  top: 0;
+  height: 100vh;
 }
 
 .right-collapsed #sidebar-right { display: none; }
@@ -124,10 +128,21 @@ a.subscribe {
 #vods-container .vod { margin: var(--vod-margin); }
 
 @media (orientation: portrait) {
-  #container { flex-direction: column; }
+  #container {
+    flex-direction: column;
+    height: 100vh;
+  }
+  #main-content {
+    flex: initial;
+    overflow-y: initial;
+  }
+  #sidebar-right {
+    flex-basis: initial;
+  }
   .right-collapsed #sidebar-right { display: flex; }
   #collapse-hoverer { display: none; }
   .horizontal-list { font-size: smaller; }
+
 }
 
 @media (orientation: landscape) {

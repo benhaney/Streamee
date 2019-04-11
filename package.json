@@ -1,6 +1,6 @@
 {
   "name": "streamee",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Personal streaming platform",
   "main": "server.js",
   "directories": {

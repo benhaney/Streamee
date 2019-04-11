@@ -16,15 +16,15 @@ let create_chat_line = (id, name, mes) => {
   return chat
 }
 
-let update_present = ids => {
-  console.log(ids)
+let update_present = blobs => {
   let presence = document.getElementById('chat-presence')
   if (!presence) return
   presence.innerHTML = ''
-  ids.forEach(id => {
+  blobs.forEach(blob => {
     let present_el = document.createElement('div')
-    present_el.className = `chat-present id_${id}`
-    present_el.style.background = hash(id)
+    present_el.className = `chat-present id_${blob.id}`
+    present_el.style.background = hash(blob.id)
+    present_el.setAttribute('title', blob.name || 'Unknown')
     presence.append(present_el)
   })
 }
@@ -63,16 +63,18 @@ let ws_connect = () => {
 
     if (m.type == 'chat') {
       chats.prepend(create_chat_line(m.from, m.name, m.message))
+      chats.scrollTop = chats.scrollHeight
     }
 
     if (m.type == 'name_change') {
       [...document.querySelectorAll(`#chats .id_${m.from} .name`)].forEach(n => {
         n.innerText = m.name
       })
+      if (m.present) update_present(m.present)
     }
 
-    if (m.type == 'join') update_present(m.present)
-    if (m.type == 'leave') update_present(m.present)
+    if (m.type == 'join') if (m.present) update_present(m.present)
+    if (m.type == 'leave') if (m.present) update_present(m.present)
 
     if (m.type == 'stream_change') {
       if (m.playing) init_video()
