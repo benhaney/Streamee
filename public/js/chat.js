@@ -2,16 +2,31 @@ let ws
 
 let chats = document.getElementById('chats')
 
+let hash = id => `hsl(${id%360},${((id/1000)%50)+50}%,50%)`
+
 let create_chat_line = (id, name, mes) => {
   let chat = document.createElement('div')
   chat.className = `chat-line id_${id}`
   let name_el = document.createElement('a')
   name_el.className = 'name'
   name_el.append(document.createTextNode(name))
-  name_el.style.color = `hsl(${id%360},${((id/1000)%50)+50}%,50%)`
+  name_el.style.color = hash(id)
   chat.append(name_el)
   chat.append(document.createTextNode(`: ${mes}`))
   return chat
+}
+
+let update_present = ids => {
+  console.log(ids)
+  let presence = document.getElementById('chat-presence')
+  if (!presence) return
+  presence.innerHTML = ''
+  ids.forEach(id => {
+    let present_el = document.createElement('div')
+    present_el.className = `chat-present id_${id}`
+    present_el.style.background = hash(id)
+    presence.append(present_el)
+  })
 }
 
 let create_error_line = (mes) => {
@@ -55,6 +70,9 @@ let ws_connect = () => {
         n.innerText = m.name
       })
     }
+
+    if (m.type == 'join') update_present(m.present)
+    if (m.type == 'leave') update_present(m.present)
 
     if (m.type == 'stream_change') {
       if (m.playing) init_video()
