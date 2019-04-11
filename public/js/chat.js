@@ -29,6 +29,11 @@ let ws_connect = () => {
   }, 10000)
 
   ws.addEventListener('open', ev => {
+    if (!cookie.id) {
+      cookie.id = (Math.random()+'').slice(2)
+      write_cookie(cookie)
+    }
+    ws.send(JSON.stringify({type: 'init', id: cookie.id}))
     if (cookie.name) {
       name_input.value = cookie.name
       name_input.dispatchEvent(new Event('change'))
