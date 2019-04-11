@@ -50,3 +50,23 @@ self.addEventListener('fetch', event => {
     }
   })())
 })
+
+self.addEventListener('push', event => {
+  let data = event.data ? event.data.json() : {}
+  let title = data.title || 'Stream update'
+  event.waitUntil(self.registration.showNotification(title, {
+    body: data.message ? data.message.replace(/[0-9]{13}/g, n => new Date(+n).toLocaleTimeString('en-US').replace(/:[0-9]{2} /,' ')) : undefined,
+    tag: data.tag || 'stream-notify',
+    vibrate: [400, 100, 200, 100, 200]
+  }))
+})
+
+self.addEventListener('notificationclick', event => {
+  event.notification.close()
+  event.waitUntil(clients.matchAll({type: "window"}).then(clientList => {
+    for (let client of clientList) {
+      if (client.url.split('/').slice(3).join('/').replace(/#.*$/,'') == '' && 'focus' in client) return client.focus()
+    }
+    return clients.openWindow('/')
+  }))
+})

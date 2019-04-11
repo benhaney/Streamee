@@ -14,11 +14,14 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.4",
+    "web-push": "^3.3.3",
     "ws": "^6.2.1"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://git.benhaney.com/Ben/Streamee.git"
+    "type": "git",
+    "url": "https://git.benhaney.com/Ben/Streamee.git"
   },
-  "engines" : { "node" : ">=10.12.0" }
+  "engines": {
+    "node": ">=10.12.0"
+  }
 }

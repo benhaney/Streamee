@@ -4,11 +4,13 @@ const express = require('express')
 const app = express()
 const Stream = require('./lib/ffmpeg_stream')
 const Chat = require('./lib/ws_chat')
-const config = require('./lib/config.js')
+const Push = require('./lib/push')
+const config = require('./lib/config')
 
 fs.mkdirSync(path.join(__dirname, 'data/stream'), { recursive: true })
 fs.mkdirSync(path.join(__dirname, 'data/vods'), { recursive: true })
 
+app.use(express.json())
 app.get('/', (req, res) => {
   fs.readFile('public/index.html', (err, index) => res.end(index.toString()))
 })
@@ -23,7 +25,16 @@ app.use('/', express.static('public'))
 
 app.listen(config.port)
 
+let push = new Push(app, '/push/', config)
 let stream = new Stream(config)
 let chat = new Chat(config)
 
 stream.on('changed', playing => chat.signal_stream_change(playing))
+stream.on('changed', playing => {
+  if (playing) {
+    push.push({
+      title: 'Stream started',
+      message: `Live at ${Date.now()}`
+    })
+  }
+})

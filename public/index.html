@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="utf-8">
+    <meta name="theme-color" content="#000000">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Stream</title>
     <link rel="manifest" href="/manifest.webmanifest">
     <link rel="stylesheet" href="css/style.css">
@@ -8,8 +11,7 @@
     <script defer src="js/cookie.js"></script>
     <script defer src="js/index.js"></script>
     <script defer src="js/chat.js"></script>
-    <meta name="theme-color" content="#000000">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script defer src="js/subscribe.js"></script>
   </head>
   <body class="right-uncollapsed">
     <main id="container">
@@ -18,7 +20,7 @@
         <ul class="horizontal-list">
           <li><a href="stream/stream.m3u8" title="Raw stream URL for standalone players">Raw stream</a></li>
           <li><a href="vods" title="Recordings of previous streams">Previous streams</a></li>
-          <li><a href="#" title="Be notified when the stream goes live">Subscribe</a></p></li>
+          <li><a class="subscribe" title="Be notified when the stream goes live">Subscribe</a></li>
         </ul>
       </section>
       <section id="sidebar-right" class="flex-column">

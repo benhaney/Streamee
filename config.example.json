@@ -1,5 +1,7 @@
 {
   "name": "streamname",
+  "email": "foo@bar.baz",
+  "push-storage": "push-storage.json",
   "port": 9030,
-  "chat_port": 9031
+  "chat-port": 9031
 }

@@ -21,6 +21,11 @@ p { font-family: sans-serif; }
 .horizontal-list li { display: inline-block; }
 .horizontal-list li:not(:last-child):after { content: " | "; }
 
+a.subscribe {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 #container {
   display: flex;
   max-width: 100%;
