@@ -9,8 +9,11 @@ body {
   color: white;
 }
 
-a { color: #7dc0fd; }
-p { font-family: sans-serif; }
+a {
+  color: #7dc0fd;
+  font-family: sans-serif;
+}
+
 .flex { display: flex; }
 .flex-column { display: flex; flex-direction: column; }
 .horizontal-list {
