@@ -60,6 +60,9 @@ a.subscribe {
   word-break: break-word;
   hyphens: auto;
 }
+#chats::-webkit-scrollbar {
+  width: 0 !important;
+}
 
 #chat-presence { text-align: right; }
 #chat-presence .chat-present {
@@ -125,7 +128,10 @@ a.subscribe {
   flex-wrap: wrap;
 }
 
-#vods-container .vod { margin: var(--vod-margin); }
+#vods-container .vod {
+  margin: var(--vod-margin);
+  position: relative;
+}
 
 @media (orientation: portrait) {
   #container {
@@ -142,7 +148,6 @@ a.subscribe {
   .right-collapsed #sidebar-right { display: flex; }
   #collapse-hoverer { display: none; }
   .horizontal-list { font-size: smaller; }
-
 }
 
 @media (orientation: landscape) {
@@ -151,19 +156,28 @@ a.subscribe {
   }
 }
 
-#vods-container .vod img {
+.vod img {
   border: 3px solid #4c4c4c;
   max-width: 100%;
   box-sizing: border-box;
 }
 
-#vods-container .vod span.vod-line {
+.vod span.vod-line {
   display: block;
   font-family: sans-serif;
 }
 
-#vods-container .vod span.vod-line.vod-subject {
+.vod span.vod-line.vod-subject {
   color: #83cbf1;
   font-size: smaller;
   font-style: oblique;
 }
+
+.vod .vod-line.top-left, .vod .vod-line.top-right {
+  position: absolute;
+  top: 5px;
+  /* uh */
+  text-shadow: 0 0 3px black, 0 0 3px black, 0 0 3px black;
+}
+.vod .vod-line.top-left { left: 5px; }
+.vod .vod-line.top-right { right: 5px; }

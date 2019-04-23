@@ -10,12 +10,15 @@ const config = require('./lib/config')
 fs.mkdirSync(path.join(__dirname, 'data/stream'), { recursive: true })
 fs.mkdirSync(path.join(__dirname, 'data/vods'), { recursive: true })
 
+app.disable('x-powered-by')
 app.use(express.json())
 app.get('/', (req, res) => {
+  res.type('html')
   fs.readFile('public/index.html', (err, index) => res.end(index.toString()))
 })
 
 app.get('/vods/', (req, res) => {
+  res.type('html')
   fs.readFile('public/vods.html', (err, index) => res.end(index.toString()))
 })
 

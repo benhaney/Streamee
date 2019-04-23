@@ -22,11 +22,15 @@ fetch('/vods/vods.json').then(res => res.json()).then(vods => {
     let vod = document.createElement('div')
     vod.className = 'vod'
     let date_el = document.createElement('span')
-    date_el.className = "vod-line"
+    date_el.className = "vod-line top-left"
     date_el.append(document.createTextNode(time_between(meta.time, Date.now())))
     vod.append(date_el)
+    let dur_el = document.createElement('span')
+    dur_el.className = "vod-line top-right"
+    dur_el.append(document.createTextNode(`${~~(meta.duration/3600)}:${(''+(~~(meta.duration/60))%60).padStart(2,'0')}`))
+    vod.append(dur_el)
     let thumb_a = document.createElement('a')
-    thumb_a.href = `/vods/${filename}`
+    thumb_a.href = meta.url || `/vods/${filename}`
     let thumb = document.createElement('img')
     thumb.src = `/vods/${meta.thumb}`
     thumb.alt = meta.title || 'Unnamed stream'
