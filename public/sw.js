@@ -1,20 +1,19 @@
-let cache_list_stale = new Set([
+let cache_list = new Set([
   '/',
   '/vods',
+  '/vods/vods.json',
   '/css/style.css',
   '/js/hls.js',
   '/js/cookie.js',
   '/js/index.js',
   '/js/chat.js',
-  '/js/vods.js'
-])
-
-let cache_list_fresh = new Set([
+  '/js/vods.js',
   '/stream/stream.m3u8',
-  '/stream/done.ts'
+  '/stream/done.ts',
+  '/manifest.webmanifest'
 ])
 
-let cache_list = new Set([...cache_list_stale, ...cache_list_fresh])
+let cache_exts = new Set(['js', 'css', 'json', 'jpg', 'png', 'html'])
 
 self.addEventListener('install', event => {
   event.waitUntil(async () => {
@@ -24,31 +23,20 @@ self.addEventListener('install', event => {
 })
 
 self.addEventListener('fetch', event => {
-  event.respondWith((async () => {
-    let path = `/${event.request.url.split('/').slice(3).join('/')}`
-    let cache = await caches.open('static')
-    let cached = await cache.match(event.request)
-    let network_req = fetch(event.request)
-
-    // Don't ever cache this
-    if (!cache_list.has(path)) return network_req
-
-    // Cache this
-    event.waitUntil((async () => {
-      try {
-        let network_res = await network_req
-        await cache.put(event.request, network_res.clone())
-      } catch (e) {}
-    })())
-
-    if (cache_list_stale.has(path)) {
-      // Stale allowed - return cached resource while updating if we have it
-      return cached || network_req
-    } else if (cache_list_fresh.has(path)) {
-      // Fresh required - wait for update to finish and only serve stale if failed
-      try { return await network_req } catch (e) { return cached }
-    }
-  })())
+  let path = `/${event.request.url.split('/').slice(3).join('/')}`
+  let ext = (path.match(/\.(.+)$/)||[])[1]
+  if (!cache_list.has(path) && !cache_exts.has(ext)) return
+  event.respondWith(
+    fetch(event.request).then(res => {
+      let res_cache = res.clone()
+      caches.open('static').then(cache => cache.put(event.request, res_cache))
+      return res
+    }).catch(() => {
+      return caches.open('static')
+        .then(cache => cache.match(event.request))
+        .then(res => res || Promise.reject('no-match'))
+    })
+  )
 })
 
 self.addEventListener('push', event => {
